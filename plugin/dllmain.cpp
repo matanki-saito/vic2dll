@@ -31,7 +31,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 #endif
 
 			// フォント読み込み
-			//e |= Font::Init(options);
+			e |= Font::Init(options);
 
 			Validator::Validate(e, options);
 		}
