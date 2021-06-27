@@ -43,6 +43,12 @@
     <Filter Include="ソース ファイル\app\font">
       <UniqueIdentifier>{9d11937e-8973-43d3-bead-13aab83d0769}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\main_text">
+      <UniqueIdentifier>{7bbcff16-c3d4-4e39-ab56-afd71cf58344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\app\tooltip_and_button">
+      <UniqueIdentifier>{63dd45ce-ad96-4948-a7f8-6fa4e00b8be0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -113,8 +119,22 @@
     <ClCompile Include="font.cpp">
       <Filter>ソース ファイル\app\font</Filter>
     </ClCompile>
+    <ClCompile Include="main_text.cpp">
+      <Filter>ソース ファイル\app\main_text</Filter>
+    </ClCompile>
+    <ClCompile Include="tooltip_and_button.cpp">
+      <Filter>ソース ファイル\app\tooltip_and_button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="main_text_asm.asm">
+      <Filter>ソース ファイル\app\main_text</Filter>
+    </MASM>
+    <MASM Include="tooltip_and_button_asm.asm">
+      <Filter>ソース ファイル\app\tooltip_and_button</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "plugin.h"
+#include <d3d9.h>
 
+// Font texure size must become 2^n
 namespace Font {
 
 	DllError fontBufferHeapZeroClearInjector(RunOptions options) {
@@ -46,6 +48,27 @@ namespace Font {
 		return e;
 	}
 
+	DllError fontTextureSizeLimitInjector(RunOptions options) {
+		DllError e = {};
+
+		switch (options.version) {
+		case v3_0_4_0:
+			BytePattern::temp_instance().find_pattern("81 FF 00 00 00 01 7C 5E");
+			if (BytePattern::temp_instance().has_size(1, "Font texure limit")) {
+				// cmp edi, 1000000h
+				Injector::WriteMemory<uint8_t>(BytePattern::temp_instance().get_first().address(0x5), 0x05, true);
+			}
+			else {
+				e.unmatch.fontBufferExpansionInjector = true;
+			}
+			break;
+		default:
+			e.version.fontBufferExpansionInjector = true;
+		}
+
+		return e;
+	}
+
 	DllError Init(RunOptions options) {
 		DllError result = {};
 
@@ -56,6 +79,9 @@ namespace Font {
 
 		/* フォントバッファ拡張 */
 		result |= fontBufferExpansionInjector(options);
+
+		/* フォントテクスチャサイズの拡張 */
+		result |= fontTextureSizeLimitInjector(options);
 
 		return result;
 	}

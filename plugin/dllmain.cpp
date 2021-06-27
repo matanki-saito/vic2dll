@@ -33,6 +33,12 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			// フォント読み込み
 			e |= Font::Init(options);
 
+			// メインテキスト
+			e |= MainText::Init(options);
+
+			// ツールチップとボタン
+			e |= TooltipAndButton::Init(options);
+
 			Validator::Validate(e, options);
 		}
 	}
