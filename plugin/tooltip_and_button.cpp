@@ -4,7 +4,6 @@
 namespace TooltipAndButton {
 	extern "C" {
 		void tooltipAndButtonProc1();
-		uintptr_t tooltipAndButtonProc1SrcAddress;
 		uintptr_t tooltipAndButtonProc1ReturnAddress;
 	}
 
@@ -13,15 +12,13 @@ namespace TooltipAndButton {
 
 		switch (options.version) {
 		case v3_0_4_0:
-			// mov al, byte_xxxx[eax]
-			BytePattern::temp_instance().find_pattern("8A 80 ? ? ? ? 0F B6 C8 8B BC 8B 94 00 00 00");
+			// movzx eax, byte ptr [eax+ebx]
+			BytePattern::temp_instance().find_pattern("0F B6 04 18 8B B4 87 94 00 00 00 85 F6 0F 85 C3");
 			if (BytePattern::temp_instance().has_size(1, u8"テキスト処理ループ２の文字取得修正")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
 				// jnz loc
-				tooltipAndButtonProc1ReturnAddress = address + 0x12;
-
-				tooltipAndButtonProc1SrcAddress = Injector::ReadMemory<uint32_t>(address + 2);
+				tooltipAndButtonProc1ReturnAddress = address + 0xD;
 
 				Injector::MakeJMP(address, tooltipAndButtonProc1, true);
 			}

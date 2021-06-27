@@ -1,4 +1,3 @@
-EXTERN _tooltipAndButtonProc1SrcAddress: DWORD
 EXTERN _tooltipAndButtonProc1ReturnAddress: DWORD
 
 ESCAPE_SEQ_1	=	10h
@@ -17,13 +16,50 @@ NOT_DEF			=	2026h
 
 .CODE
 tooltipAndButtonProc1 PROC
-	mov		ecx, [_tooltipAndButtonProc1SrcAddress]
-	add		eax, ecx
-	mov		al, byte ptr [eax]
-	movzx	ecx, al
-	mov		edi, [ebx+ecx*4+94h]
-	test	edi, edi
 
+	cmp		byte ptr[eax + ebx], ESCAPE_SEQ_1;
+	jz		JMP_A;
+	cmp		byte ptr[eax + ebx], ESCAPE_SEQ_2;
+	jz		JMP_B;
+	cmp		byte ptr[eax + ebx], ESCAPE_SEQ_3;
+	jz		JMP_C;
+	cmp		byte ptr[eax + ebx], ESCAPE_SEQ_4;
+	jz		JMP_D;
+	movzx	eax, byte ptr [eax + ebx];
+	jmp		JMP_E;
+
+JMP_A:
+	movzx	eax, word ptr[eax + ebx + 1];
+	jmp		JMP_F;
+
+JMP_B:
+	movzx	eax, word ptr[eax + ebx + 1];
+	sub		eax, SHIFT_2;
+	jmp		JMP_F;
+
+JMP_C:
+	movzx	eax, word ptr[eax + ebx + 1];
+	add		eax, SHIFT_3;
+	jmp		JMP_F;
+
+JMP_D:
+	movzx	eax, word ptr[eax + ebx + 1];
+	add		eax, SHIFT_4;
+
+JMP_F:
+	movzx	eax, ax;
+	mov		esi, [esp + 400h - 3DCh]
+	add		esi, 2;
+	mov		[esp + 400h - 3DCh], esi
+	cmp		eax, NO_FONT;
+
+	ja		JMP_E;
+	mov		eax, NOT_DEF;
+
+JMP_E:
+	
+	mov		esi, [edi+eax*4 + 94h]
+	test	esi, esi
 	push	_tooltipAndButtonProc1ReturnAddress
 	ret
 tooltipAndButtonProc1 ENDP
