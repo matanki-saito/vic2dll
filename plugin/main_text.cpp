@@ -6,6 +6,9 @@ namespace MainText {
 		void mainTextProc1();
 		void mainTextProc3();
 		void mainTextProc4();
+		void mainTextProc5();
+		void mainTextProc6();
+
 		uintptr_t maintTextProc1SrcAddress;
 		uintptr_t maintTextProc1ReturnAddress;
 		uintptr_t maintTextProc2SrcAddress;
@@ -13,6 +16,8 @@ namespace MainText {
 		uintptr_t maintTextProc3ReturnAddress;
 		uintptr_t maintTextProc4ReturnAddress1;
 		uintptr_t maintTextProc4ReturnAddress2;
+		uintptr_t maintTextProc5ReturnAddress;
+		uintptr_t maintTextProc6ReturnAddress;
 	}
 
 	DllError maintTextProc1Injector(RunOptions options) {
@@ -100,7 +105,7 @@ namespace MainText {
 		switch (options.version) {
 		case v3_0_4_0:
 			// movzx ecx, cl
-			BytePattern::temp_instance().find_pattern("8B 45 24 03 C0 03 44 24 10 3B 44 24 28");
+			BytePattern::temp_instance().find_pattern("8B 45 24 8B 4C 24 10 8D 14 41");
 			if (BytePattern::temp_instance().has_size(1, u8"テキスト処理ループ１の改行処理戻り先")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
@@ -111,15 +116,68 @@ namespace MainText {
 				e.unmatch.mainTextProc4Injector = true;
 			}
 
-			// movzx ecx, cl
+			// mov edi, [ecx+81Ch]
 			BytePattern::temp_instance().find_pattern("83 7C 24 48 00 0F 85 2F 01 00 00");
 			if (BytePattern::temp_instance().has_size(1, u8"テキスト処理ループ１の改行処理")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
-				// jnz loc_xxxxx
+				// jz loc_xxxxx
 				maintTextProc4ReturnAddress1 = address + 5;
 
 				Injector::MakeJMP(address, mainTextProc4, true);
+			}
+			else {
+				e.unmatch.mainTextProc4Injector = true;
+			}
+			break;
+		default:
+			e.version.mainTextProc4Injector = true;
+		}
+
+		return e;
+	}
+
+	DllError maintTextProc5Injector(RunOptions options) {
+		DllError e = {};
+
+		switch (options.version) {
+		case v3_0_4_0:
+			// mov     eax, [esp+530h+var_514]
+			BytePattern::temp_instance().find_pattern("8B 44 24 1C 40 89 44 24 1C 3B 44 24 2C");
+			if (BytePattern::temp_instance().has_size(1, u8"ループ１のカウントアップ処理")) {
+				uintptr_t address = BytePattern::temp_instance().get_first().address();
+
+				// jl loc_xxxxx
+				maintTextProc5ReturnAddress = address + 0xD;
+
+				Injector::MakeJMP(address, mainTextProc5, true);
+			}
+			else {
+				e.unmatch.mainTextProc4Injector = true;
+			}
+			break;
+		default:
+			e.version.mainTextProc4Injector = true;
+		}
+
+		return e;
+	}
+
+	DllError maintTextProc6Injector(RunOptions options) {
+		DllError e = {};
+
+		// ここは別のルーチン
+		switch (options.version) {
+		case v3_0_4_0:
+			// mov     al, [ebx+edx]
+			BytePattern::temp_instance().find_pattern("8A 04 13 0F B6 C8 8B 8C 8E 94 00 00 00");
+			if (BytePattern::temp_instance().has_size(1, u8"文字幅取得処理")) {
+				uintptr_t address = BytePattern::temp_instance().get_first().address();
+
+				// jz      short loc_xxxxx
+				maintTextProc6ReturnAddress = address + 0xF;
+
+				Injector::MakeJMP(address, mainTextProc6, true);
 			}
 			else {
 				e.unmatch.mainTextProc4Injector = true;
@@ -142,6 +200,10 @@ namespace MainText {
 		result |= maintTextProc3Injector(options);
 
 		result |= maintTextProc4Injector(options);
+
+		result |= maintTextProc5Injector(options);
+
+		result |= maintTextProc6Injector(options);
 
 		return result;
 	}
