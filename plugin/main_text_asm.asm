@@ -7,6 +7,8 @@ EXTERN _maintTextProc4ReturnAddress1: DWORD
 EXTERN _maintTextProc4ReturnAddress2: DWORD
 EXTERN _maintTextProc5ReturnAddress: DWORD
 EXTERN _maintTextProc6ReturnAddress: DWORD
+EXTERN _maintTextProc7ReturnAddress1: DWORD
+EXTERN _maintTextProc7ReturnAddress2: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -24,6 +26,7 @@ NOT_DEF			=	2026h
 
 .DATA
 doubleByteFlag	DD		0
+doubleByteFlag2	DD		0
 
 .CODE
 mainTextProc1 PROC
@@ -127,7 +130,7 @@ JMP_G:
 	mov		edi, [_maintTextProc2DstAddress]
 	add		edi, esi
 	mov		word ptr[edi], ax
-	add		esi,2
+	;add		esi,2
 
 JMP_E:
 	mov     eax, [esp+530h-514h]
@@ -171,6 +174,7 @@ mainTextProc5 PROC
 	cmp		doubleByteFlag, 0
 	jz		JMP_A
 	add		eax, 2;
+	add		esi,2
 
 JMP_A:
 	mov		doubleByteFlag, 0
@@ -185,7 +189,6 @@ mainTextProc5 ENDP
 ;---------------------------------------------;
 
 mainTextProc6 PROC
-	
 	mov     al, byte ptr [ebx+edx]
 
 	cmp		byte ptr[ebx+edx], ESCAPE_SEQ_1;
@@ -218,19 +221,46 @@ JMP_D:
 	add		ecx, SHIFT_4;
 
 JMP_F:
-	add		ebx,2
+	add		ebx,3
+	cmp		ebx, [ebp - 0Ch]
+	jg		JMP_Z
+
+	dec		ebx
 	movzx	ecx, cx;
 	cmp		ecx, NO_FONT;
 	ja		JMP_E;
 	mov		ecx, NOT_DEF;
 
 JMP_E:
-	mov     ecx, dword ptr [esi+ecx*4+94h]
+	mov     ecx, dword ptr [esi + ecx * 4 + 94h]
 	test    ecx, ecx
 
 	push	_maintTextProc6ReturnAddress
 	ret
 
+JMP_Z:
+	push	_maintTextProc7ReturnAddress2
+	ret
+
 mainTextProc6 ENDP
+
+;---------------------------------------------;
+
+mainTextProc7 PROC
+
+	inc		ebx
+	cmp		ebx, [ebp - 0Ch]
+	jl		JMP_A
+	
+	;ループから抜ける
+	push	_maintTextProc7ReturnAddress2
+	ret
+
+JMP_A:
+	;再ループ
+	push	_maintTextProc7ReturnAddress1
+	ret
+
+mainTextProc7 ENDP
 
 END

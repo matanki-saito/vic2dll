@@ -8,6 +8,7 @@ namespace MainText {
 		void mainTextProc4();
 		void mainTextProc5();
 		void mainTextProc6();
+		void mainTextProc7();
 
 		uintptr_t maintTextProc1SrcAddress;
 		uintptr_t maintTextProc1ReturnAddress;
@@ -18,6 +19,8 @@ namespace MainText {
 		uintptr_t maintTextProc4ReturnAddress2;
 		uintptr_t maintTextProc5ReturnAddress;
 		uintptr_t maintTextProc6ReturnAddress;
+		uintptr_t maintTextProc7ReturnAddress1;
+		uintptr_t maintTextProc7ReturnAddress2;
 	}
 
 	DllError maintTextProc1Injector(RunOptions options) {
@@ -190,6 +193,35 @@ namespace MainText {
 		return e;
 	}
 
+	DllError maintTextProc7Injector(RunOptions options) {
+		DllError e = {};
+
+		// ここは別のルーチン
+		switch (options.version) {
+		case v3_0_4_0:
+			// mov     al, [ebx+edx]
+			BytePattern::temp_instance().find_pattern("43 3B 5D F4 0F 8C 13 FF FF FF");
+			if (BytePattern::temp_instance().has_size(1, u8"カウントアップ")) {
+				uintptr_t address = BytePattern::temp_instance().get_first().address();
+
+				// jl      loc_{xxxxx}
+				maintTextProc7ReturnAddress1 = Injector::GetBranchDestination(address + 4).as_int();
+				// mov     eax, [ebp+var_8]
+				maintTextProc7ReturnAddress2 = address + 0x0A;
+
+				Injector::MakeJMP(address, mainTextProc7, true);
+			}
+			else {
+				e.unmatch.mainTextProc4Injector = true;
+			}
+			break;
+		default:
+			e.version.mainTextProc4Injector = true;
+		}
+
+		return e;
+	}
+
 	DllError Init(RunOptions options) {
 		DllError result = {};
 
@@ -199,11 +231,13 @@ namespace MainText {
 
 		result |= maintTextProc3Injector(options);
 
-		result |= maintTextProc4Injector(options);
+		//result |= maintTextProc4Injector(options);
 
 		result |= maintTextProc5Injector(options);
 
 		result |= maintTextProc6Injector(options);
+
+		result |= maintTextProc7Injector(options);
 
 		return result;
 	}
