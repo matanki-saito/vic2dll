@@ -2,9 +2,12 @@ name: DllBuild
 on:
   push:
     branches:
-      - master
       - develop
-
+  workflow_dispatch:
+    inputs:
+      info:
+        description: 'manual trigger'
+        
 jobs:
   build:
     runs-on: windows-latest
