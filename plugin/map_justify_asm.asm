@@ -19,6 +19,7 @@ NOT_DEF			=	2026h
 .CODE
 mapJustifyProc1 PROC
 	mov     cl, [eax+esi]
+	mov     byte ptr [ebp+18h], cl
 
 	cmp		cl, ESCAPE_SEQ_1
 	jz		JMP_B
@@ -28,9 +29,7 @@ mapJustifyProc1 PROC
 	jz		JMP_B
 	cmp		cl, ESCAPE_SEQ_4
 	jz		JMP_B
-
 	lea     eax, [ebp+18h] ; arg_10
-	mov     byte ptr [ebp+18h], cl
 	lea     edx, [eax+1]
 
 JMP_A:
@@ -42,9 +41,9 @@ JMP_A:
 
 JMP_B:
 	mov		ax, [eax + esi + 1]
-	mov		byte ptr[ebp + 18h], cl
 	mov		word ptr[ebp + 18h + 1], ax
 	add		esi, 2
+	mov		edx, 0
 	mov		eax, 3
 
 JMP_C:
