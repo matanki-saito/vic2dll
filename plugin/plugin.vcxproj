@@ -188,6 +188,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main_text.cpp" />
+    <ClCompile Include="map_view.cpp" />
     <MASM Include="main_text_asm.asm">
       <FileType>Document</FileType>
     </MASM>
@@ -198,6 +199,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <MASM Include="map_view_asm.asm" />
     <MASM Include="tooltip_and_button_asm.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
