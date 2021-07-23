@@ -52,6 +52,9 @@
     <Filter Include="ソース ファイル\app\map_view">
       <UniqueIdentifier>{76292436-05df-4a3b-8a6c-2b57c0b3d34a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\map_justify">
+      <UniqueIdentifier>{7c4dd204-ffa7-46c6-8c71-c3adebad7f03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -131,6 +134,9 @@
     <ClCompile Include="map_view.cpp">
       <Filter>ソース ファイル\app\map_view</Filter>
     </ClCompile>
+    <ClCompile Include="map_justify.cpp">
+      <Filter>ソース ファイル\app\map_justify</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -144,6 +150,9 @@
     </MASM>
     <MASM Include="map_view_asm.asm">
       <Filter>ソース ファイル\app\map_view</Filter>
+    </MASM>
+    <MASM Include="map_justify_asm.asm">
+      <Filter>ソース ファイル\app\map_justify</Filter>
     </MASM>
   </ItemGroup>
 </Project>
