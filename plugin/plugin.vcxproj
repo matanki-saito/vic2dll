@@ -178,6 +178,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="escape_tool.cpp" />
     <ClCompile Include="font.cpp" />
+    <ClCompile Include="map_adjustment.cpp" />
     <ClCompile Include="map_justify.cpp" />
     <ClCompile Include="tooltip_and_button.cpp" />
     <ClCompile Include="mod_download.cpp" />
@@ -200,6 +201,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <MASM Include="map_adjustment_asm.asm" />
     <MASM Include="map_justify_asm.asm" />
     <MASM Include="map_view_asm.asm" />
     <MASM Include="tooltip_and_button_asm.asm" />

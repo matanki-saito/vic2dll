@@ -12,7 +12,13 @@ namespace MapView {
 		void mapViewProc4();
 		uintptr_t mapViewProc4ReturnAddress;
 		uintptr_t mapViewProc4CallAddress;
+		
+		void mapViewProc5();
+		uintptr_t mapViewProc5ReturnAddress;
+		uintptr_t mapViewProc5CallAddress;
 	}
+
+	DWORD WINAPI CharUpperBuffAX(_Inout_updates_(cchLength) LPSTR lpsz, _In_ DWORD cchLength);
 
 	DllError mapViewProc1Injector(RunOptions options) {
 		DllError e = {};
@@ -121,6 +127,38 @@ namespace MapView {
 		return e;
 	}
 
+	DllError mapViewProc5Injector(RunOptions options) {
+		DllError e = {};
+
+		switch (options.version) {
+		case v3_0_4_0:
+			// push    ecx
+			BytePattern::temp_instance().find_pattern("51 50 FF D6 8B 85 40 FF FF FF");
+			if (BytePattern::temp_instance().has_size(1, u8"CharUpperBuffA")) {
+				uintptr_t address = BytePattern::temp_instance().get_first().address();
+				//Injector::MakeJMP(address, mapViewProc5, true);
+
+				uintptr_t ptr = Injector::ReadMemory<uintptr_t>(address - 4);
+				void* adr = (void*) CharUpperBuffAX;
+				Injector::WriteMemory(ptr, adr, true);
+			}
+			else {
+				e.unmatch.mapViewProc4Injector = true;
+			}
+			break;
+		default:
+			e.version.mapViewProc4Injector = true;
+		}
+
+		return e;
+	}
+
+	DWORD WINAPI CharUpperBuffAX(_Inout_updates_(cchLength) LPSTR lpsz, _In_ DWORD cchLength) {
+		//DWORD result = CharUpperBuffA(lpsz, cchLength);
+
+		return cchLength;
+	}
+
 	DllError Init(RunOptions options) {
 		DllError result = {};
 
@@ -128,6 +166,7 @@ namespace MapView {
 		result |= mapViewProc2Injector(options);
 		result |= mapViewProc3Injector(options);
 		result |= mapViewProc4Injector(options);
+		result |= mapViewProc5Injector(options);
 
 		return result;
 	}

@@ -3,6 +3,8 @@ EXTERN _mapViewProc2ReturnAddress: DWORD
 EXTERN _mapViewProc3ReturnAddress: DWORD
 EXTERN _mapViewProc4ReturnAddress: DWORD
 EXTERN _mapViewProc4CallAddress: DWORD
+EXTERN _mapViewProc5ReturnAddress: DWORD
+EXTERN _mapViewProc5CallAddress: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -229,5 +231,20 @@ JMP_D:
 	ret
 
 mapViewProc4 ENDP
+
+;-------------------;
+
+mapViewProc5 PROC
+
+	;mov		esi, _mapViewProc5CallAddress
+	push	ecx;  cchLength
+	push    eax ; lpsz
+	call	esi
+	mov		eax, [ebp-0C0h] ; lpsz
+
+	push	_mapViewProc5ReturnAddress
+	ret
+
+mapViewProc5 ENDP
 
 END
