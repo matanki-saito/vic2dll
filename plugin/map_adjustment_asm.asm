@@ -16,6 +16,8 @@ NOT_DEF			=	2026h
 
 .CODE
 mapAdjustmentProc1 PROC
+	xorps   xmm0, xmm0
+	cvtsi2ss xmm0, ebx
 
 	cmp     byte ptr [ebx+eax], ESCAPE_SEQ_1
 	jz		JMP_A
@@ -30,13 +32,11 @@ mapAdjustmentProc1 PROC
 	jmp		JMP_C
 
 JMP_A:
-	sub		ecx, 3
-	mov     [esp+100h-30h], ecx
 	add		ebx, 2
+	sub		ecx, 3
 
 JMP_C:
 	xorps   xmm1, xmm1
-	cvtps2pd xmm0, xmm0
 	push	_mapAdjustmentProc1ReturnAddress
 	ret
 mapAdjustmentProc1 ENDP

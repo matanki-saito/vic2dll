@@ -3,8 +3,9 @@ EXTERN _mapViewProc2ReturnAddress: DWORD
 EXTERN _mapViewProc3ReturnAddress: DWORD
 EXTERN _mapViewProc4ReturnAddress: DWORD
 EXTERN _mapViewProc4CallAddress: DWORD
-EXTERN _mapViewProc5ReturnAddress: DWORD
-EXTERN _mapViewProc5CallAddress: DWORD
+EXTERN _mapViewProc6ReturnAddress: DWORD
+EXTERN _mapViewProc6ReturnAddress2: DWORD
+EXTERN _mapViewProc7ReturnAddress: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -23,11 +24,12 @@ NOT_DEF			=	2026h
 .DATA
 tmp1	DW		0
 tmp2	DD		0
+tmp3	DD		0
 
 .CODE
 mapViewProc1 PROC
 
-	mov     edx, [esp + 328h - 318h]
+	mov     edx, dword ptr [esp + 328h - 318h]
 
 	cmp		byte ptr[eax + edx], ESCAPE_SEQ_1;
 	jz		JMP_A;
@@ -61,15 +63,15 @@ JMP_D:
 JMP_F:
 	movzx	eax, ax;
 	add		edx, 2;
-	mov		[esp + 328h - 318h], edx
+	mov		dword ptr [esp + 328h - 318h], edx
 	cmp		eax, NO_FONT;
 
 	ja		JMP_E;
 	mov		eax, NOT_DEF;
 
 JMP_E:
-	mov     edx, [ebp + 8]
-	mov     edx, [edx + eax * 4 + 94h]
+	mov     edx, dword ptr [ebp + 8] ; arg_0
+	mov     edx, dword ptr [edx + eax * 4 + 94h]
 	test	edx, edx
 	push	_mapViewProc1ReturnAddress
 	ret
@@ -109,9 +111,8 @@ JMP_D:
 	add		edx, SHIFT_4;
 
 JMP_F:
-	mov		edi, [esp + 328h - 318h]
-	add		edi,2
-	mov		[esp + 328h - 318h], edi
+	add		ebx,2
+	mov		dword ptr [esp + 328h - 318h], ebx
 
 	movzx	edx, dx;
 	cmp		edx, NO_FONT;
@@ -120,8 +121,8 @@ JMP_F:
 	mov		edx, NOT_DEF;
 
 JMP_E:
-	mov     edi, [ebp + 8]
-	mov     edx, [edi + edx * 4 + 94h]
+	mov     edi, dword ptr [ebp + 8]
+	mov     edx, dword ptr [edi + edx * 4 + 94h]
 	test	edx, edx
 	push	_mapViewProc2ReturnAddress
 	ret
@@ -130,6 +131,8 @@ mapViewProc2 ENDP
 ;-------------------;
 
 mapViewProc3 PROC
+
+	mov		tmp3, 0
 
 	cmp		byte ptr[eax + esi], ESCAPE_SEQ_1;
 	jz		JMP_A;
@@ -161,8 +164,7 @@ JMP_D:
 	add		ecx, SHIFT_4;
 
 JMP_F:
-	add		esi,2
-	mov     [ebp - 0Ch], esi
+	mov		tmp3, 1
 
 	movzx	ecx, cx;
 	cmp		ecx, NO_FONT;
@@ -170,29 +172,38 @@ JMP_F:
 	ja		JMP_E;
 	mov		ecx, NOT_DEF;
 
+	add		esi,3
+	cmp		esi, dword ptr [ebp - 18h]
+	jg		JMP_Z
+
 JMP_E:
-	mov     eax, [ebp - 10h]
-	mov     ecx, [eax + ecx * 4 + 94h]
+	mov     eax, dword ptr [ebp - 10h]
+	mov     ecx, dword ptr [eax + ecx * 4 + 94h]
 	test	ecx, ecx
 	push	_mapViewProc3ReturnAddress
 	ret
+
+JMP_Z:
+	push	_mapViewProc6ReturnAddress2
+	ret
+	
 mapViewProc3 ENDP
 
 ;-------------------;
 
 mapViewProc4 PROC
-	;
-	mov     edx, [esp + 328h - 318h]
-	lea		edx, [eax + edx]
+	mov     edx, dword ptr [esp + 328h - 318h]
+	lea		edx, dword ptr [eax + edx]
 	mov		tmp2, edx
-	mov     edx, [esp + 328h - 318h]
+	mov     edx, dword ptr [esp + 328h - 318h]
 
-	mov     al, [eax + edx]
+	; 
+	mov     al, byte ptr [eax + edx]
 	mov     byte ptr [esp + 328h - 300h], al
 	mov     dword ptr [esp + 328h - 1D0h], 0Fh
 	mov     dword ptr [esp + 328h - 1D4h], ecx
 	mov     byte ptr [esp + 328h - 1E4h], 0
-	mov     ecx, [esp + 328h - 300h]
+	mov     ecx, dword ptr [esp + 328h - 300h]
 	push    ecx
 
 	cmp		al, ESCAPE_SEQ_1;
@@ -216,7 +227,7 @@ JMP_B:
 	push	1
 
 JMP_C:
-	lea     ecx, [esp + 330h - 1E4h]
+	lea     ecx, dword ptr [esp + 330h - 1E4h]
 	mov     byte ptr [esp + 330h - 4h], 2
 	call	_mapViewProc4CallAddress
 
@@ -234,17 +245,35 @@ mapViewProc4 ENDP
 
 ;-------------------;
 
-mapViewProc5 PROC
+mapViewProc6 PROC
+	mov     eax, dword ptr[edx+10h]
+	inc     esi
+	cmp		tmp3, 0
+	jz		JMP_A
+	add		esi,2
 
-	;mov		esi, _mapViewProc5CallAddress
-	push	ecx;  cchLength
-	push    eax ; lpsz
-	call	esi
-	mov		eax, [ebp-0C0h] ; lpsz
+JMP_A:
+	mov     dword ptr [ebp - 0Ch], esi
+	mov     dword ptr [ebp - 18h], eax
+	cmp     esi, eax
 
-	push	_mapViewProc5ReturnAddress
+	push	_mapViewProc6ReturnAddress
 	ret
 
-mapViewProc5 ENDP
+mapViewProc6 ENDP
+
+
+;-------------------;
+
+
+mapViewProc7 PROC
+
+	cvtpd2ps xmm0, xmm0
+	comiss  xmm1, xmm0
+
+	push	_mapViewProc7ReturnAddress
+	ret
+
+mapViewProc7 ENDP
 
 END
