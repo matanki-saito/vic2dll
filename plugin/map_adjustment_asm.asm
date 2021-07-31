@@ -1,4 +1,5 @@
 EXTERN _mapAdjustmentProc1ReturnAddress: DWORD
+EXTERN _mapAdjustmentProc2ReturnAddress: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -40,4 +41,12 @@ JMP_C:
 	push	_mapAdjustmentProc1ReturnAddress
 	ret
 mapAdjustmentProc1 ENDP
+
+;--------------;
+
+mapAdjustmentProc2 PROC
+    push    _mapAdjustmentProc2ReturnAddress
+    ret
+mapAdjustmentProc2 ENDP
+
 END

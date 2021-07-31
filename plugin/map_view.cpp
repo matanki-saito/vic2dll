@@ -219,10 +219,10 @@ namespace MapView {
 
 		result |= mapViewProc1Injector(options);
 		result |= mapViewProc2Injector(options);
-		//result |= mapViewProc3Injector(options);
+		result |= mapViewProc3Injector(options);
 		result |= mapViewProc4Injector(options);
-		//result |= mapViewProc5Injector(options);
-		//result |= mapViewProc6Injector(options);
+		result |= mapViewProc5Injector(options);
+		result |= mapViewProc6Injector(options);
 		result |= mapViewProc7Injector(options);
 
 		return result;
