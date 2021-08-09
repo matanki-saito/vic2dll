@@ -155,7 +155,20 @@ namespace MapView {
 	}
 
 	DWORD WINAPI CharUpperBuffAX(_Inout_updates_(cchLength) LPSTR lpsz, _In_ DWORD cchLength) {
-		//DWORD result = CharUpperBuffA(lpsz, cchLength);
+
+		char* p = lpsz;
+		while (*p != NULL) {
+			if (*p == 0x10 || *p == 0x11 || *p == 0x12 || *p == 0x13) {
+				p += 3;
+				if (p - lpsz > cchLength) {
+					break;
+				}
+				continue;
+			}
+			*p = toupper(*p);
+			p++;
+		}
+
 		return cchLength;
 	}
 
