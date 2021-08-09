@@ -130,7 +130,7 @@ JMP_G:
 	mov		edi, [_maintTextProc2DstAddress]
 	add		edi, esi
 	mov		word ptr[edi], ax
-	;add		esi,2
+	add		esi,2
 
 JMP_E:
 	mov     eax, [esp+530h-514h]
@@ -170,7 +170,7 @@ mainTextProc5 PROC
 	cmp		doubleByteFlag, 0
 	jz		JMP_A
 	add		eax, 2;
-	add		esi,2
+	;add		esi,2
 
 JMP_A:
 	mov		doubleByteFlag, 0
