@@ -14,11 +14,11 @@ ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
 ESCAPE_SEQ_3	=	12h
 ESCAPE_SEQ_4	=	13h
-LOW_SHIFT		=	0Eh
+LOW_SHIFT		=	0Fh
 HIGH_SHIFT		=	9h
 SHIFT_2			=	LOW_SHIFT
 SHIFT_3			=	900h
-SHIFT_4			=	8F2h
+SHIFT_4			=	8F1h
 NO_FONT			=	98Fh
 NOT_DEF			=	2026h
 
@@ -148,15 +148,11 @@ mainTextProc4 PROC
 	jz		JMP_A
 
 JMP_B:
-	cmp		dword ptr [esp + 530h - 4E8h], 0
+	cmp     dword ptr [esp + 530h - 4E8h], 0
 	push	_maintTextProc4ReturnAddress1
 	ret
 
 JMP_A:
-	mov     eax, [ebp + 24h]
-	mov		eax, [esp + 530h - 508h]
-	mov		eax, [esp + 530h - 51Ch]
-	mov		eax, [esp + 530h - 520h]
 	push	_maintTextProc4ReturnAddress2
 	ret
 mainTextProc4 ENDP
