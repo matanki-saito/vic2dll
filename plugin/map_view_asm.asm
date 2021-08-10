@@ -5,7 +5,6 @@ EXTERN _mapViewProc4ReturnAddress: DWORD
 EXTERN _mapViewProc4CallAddress: DWORD
 EXTERN _mapViewProc6ReturnAddress: DWORD
 EXTERN _mapViewProc6ReturnAddress2: DWORD
-EXTERN _mapViewProc7ReturnAddress: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -261,19 +260,5 @@ JMP_A:
 	ret
 
 mapViewProc6 ENDP
-
-
-;-------------------;
-
-
-mapViewProc7 PROC
-
-	cvtpd2ps xmm0, xmm0
-	comiss  xmm1, xmm0
-
-	push	_mapViewProc7ReturnAddress
-	ret
-
-mapViewProc7 ENDP
 
 END

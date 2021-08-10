@@ -43,7 +43,7 @@ namespace MapAdjustment {
 		case v3_0_4_0:
 			// xorps   xmm0, xmm0
 			BytePattern::temp_instance().find_pattern("0F 86 74 0B 00 00");
-			if (BytePattern::temp_instance().has_size(1, u8"a")) {
+			if (BytePattern::temp_instance().has_size(1, u8"どうしても修正できなかったためロジックをスキップした")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
 				mapAdjustmentProc2ReturnAddress = Injector::GetBranchDestination(address).as_int();

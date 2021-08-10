@@ -1,6 +1,8 @@
 EXTERN _mapJustifyProc1ReturnAddress1: DWORD
 EXTERN _mapJustifyProc1ReturnAddress2: DWORD
-EXTERN _mapJustifyProc1CallAddress: DWORD
+EXTERN _mapJustifyProc1CallAddress   : DWORD
+EXTERN _mapJustifyProc2ReturnAddress : DWORD
+EXTERN _mapJustifyProc3ReturnAddress : DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -15,6 +17,9 @@ NO_FONT			=	98Fh
 NOT_DEF			=	2026h
 
 .MODEL FLAT, C
+
+.DATA
+JOINTER		DB	16,24,152,00
 
 .CODE
 mapJustifyProc1 PROC
@@ -65,4 +70,36 @@ JMP_D:
 	ret
 
 mapJustifyProc1 ENDP
+
+;----------;
+
+
+mapJustifyProc2 PROC
+
+	cvtpd2ps xmm0, xmm0
+	comiss  xmm1, xmm0
+
+	push	_mapJustifyProc2ReturnAddress
+	ret
+
+mapJustifyProc2 ENDP
+
+;----------;
+
+
+mapJustifyProc3 PROC
+
+	push    3
+	lea		ecx,JOINTER
+	push	ecx
+	lea     ecx, [ebp + -94h]
+	mov     dword ptr [ebp - 80h], 0Fh
+	mov     dword ptr [ebp - 88h + 4], edi
+	mov     byte ptr [ebp - 94h], 0
+
+	push	_mapJustifyProc3ReturnAddress
+	ret
+
+mapJustifyProc3 ENDP
+
 END

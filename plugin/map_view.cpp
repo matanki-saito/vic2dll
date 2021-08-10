@@ -15,9 +15,6 @@ namespace MapView {
 		void mapViewProc6();
 		uintptr_t mapViewProc6ReturnAddress;
 		uintptr_t mapViewProc6ReturnAddress2;
-
-		void mapViewProc7();
-		uintptr_t mapViewProc7ReturnAddress;
 	}
 
 	DWORD WINAPI CharUpperBuffAX(_Inout_updates_(cchLength) LPSTR lpsz, _In_ DWORD cchLength);
@@ -201,31 +198,7 @@ namespace MapView {
 		return e;
 	}
 
-	DllError mapViewProc7Injector(RunOptions options) {
-		DllError e = {};
 
-		switch (options.version) {
-		case v3_0_4_0:
-			// cvtpd2ps xmm0, xmm0
-			BytePattern::temp_instance().find_pattern("66 0F 5A C0 0F 2F C8 0F 86 68 01 00 00");
-			if (BytePattern::temp_instance().has_size(1, u8"-")) {
-				uintptr_t address = BytePattern::temp_instance().get_first().address();
-
-				// jbe     loc_xxxxx
-				mapViewProc7ReturnAddress = Injector::GetBranchDestination(address + 7).as_int();
-
-				Injector::MakeJMP(address, mapViewProc7, true);
-			}
-			else {
-				e.unmatch.mapViewProc4Injector = true;
-			}
-			break;
-		default:
-			e.version.mapViewProc4Injector = true;
-		}
-
-		return e;
-	}
 
 	DllError Init(RunOptions options) {
 		DllError result = {};
@@ -236,7 +209,6 @@ namespace MapView {
 		result |= mapViewProc4Injector(options);
 		result |= mapViewProc5Injector(options);
 		result |= mapViewProc6Injector(options);
-		result |= mapViewProc7Injector(options);
 
 		return result;
 	}
