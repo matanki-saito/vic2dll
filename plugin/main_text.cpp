@@ -31,6 +31,7 @@ namespace MainText {
 			// mov al, byte_xxxx[eax]
 			BytePattern::temp_instance().find_pattern("8A 80 ? ? ? ? 0F B6 C8 8B BC 8B 94 00 00 00");
 			if (BytePattern::temp_instance().has_size(1, u8"テキスト処理ループ２の文字取得修正")) {
+
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
 				// jnz loc
@@ -107,25 +108,16 @@ namespace MainText {
 
 		switch (options.version) {
 		case v3_0_4_0:
-			// movzx ecx, cl
-			BytePattern::temp_instance().find_pattern("8B 45 24 8B 4C 24 10 8D 14 41");
-			if (BytePattern::temp_instance().has_size(1, u8"テキスト処理ループ１の改行処理戻り先")) {
-				uintptr_t address = BytePattern::temp_instance().get_first().address();
-
-				// mov	eax, [ebp+arg_1C]
-				maintTextProc4ReturnAddress2 = address;
-			}
-			else {
-				e.unmatch.mainTextProc4Injector = true;
-			}
-
-			// mov edi, [ecx+81Ch]
+			// cmp     [esp+530h+var_4E8], 0
 			BytePattern::temp_instance().find_pattern("83 7C 24 48 00 0F 85 2F 01 00 00");
 			if (BytePattern::temp_instance().has_size(1, u8"テキスト処理ループ１の改行処理")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
-				// jz loc_xxxxx
+				// jnz loc_xxxxx
 				maintTextProc4ReturnAddress1 = address + 5;
+
+				// mov     eax, [ebp+arg_1C]
+				maintTextProc4ReturnAddress2 = address + 0xB;
 
 				Injector::MakeJMP(address, mainTextProc4, true);
 			}
@@ -231,7 +223,7 @@ namespace MainText {
 
 		result |= maintTextProc3Injector(options);
 
-		//result |= maintTextProc4Injector(options);
+		result |= maintTextProc4Injector(options);
 
 		result |= maintTextProc5Injector(options);
 

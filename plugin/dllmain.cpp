@@ -44,6 +44,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			e |= MapJustify::Init(options);
 			e |= MapAdjustment::Init(options);
 
+			// ロード画面
+			e |= LoadingText::Init(options);
+
 			Validator::Validate(e, options);
 		}
 	}

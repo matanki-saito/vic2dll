@@ -58,6 +58,9 @@
     <Filter Include="ソース ファイル\app\map_adjustment">
       <UniqueIdentifier>{abe83239-4539-453f-8c3d-24f04bb09eaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\loading_text">
+      <UniqueIdentifier>{d0f16b94-1101-48ba-907d-11706878233b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -143,6 +146,9 @@
     <ClCompile Include="map_adjustment.cpp">
       <Filter>ソース ファイル\app\map_adjustment</Filter>
     </ClCompile>
+    <ClCompile Include="loading_text.cpp">
+      <Filter>ソース ファイル\app\loading_text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -162,6 +168,9 @@
     </MASM>
     <MASM Include="map_adjustment_asm.asm">
       <Filter>ソース ファイル\app\map_adjustment</Filter>
+    </MASM>
+    <MASM Include="loading_text_asm.asm">
+      <Filter>ソース ファイル\app\loading_text</Filter>
     </MASM>
   </ItemGroup>
 </Project>

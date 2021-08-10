@@ -12,6 +12,7 @@
 #include <boost/utility/string_view.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/utility/string_view.hpp>
+#include <d3dx9.h>
 #include "byte_pattern.h"
 #include "injector.hpp"
 
