@@ -31,6 +31,7 @@ namespace MainText {
 			// mov al, byte_xxxx[eax]
 			BytePattern::temp_instance().find_pattern("8A 80 ? ? ? ? 0F B6 C8 8B BC 8B 94 00 00 00");
 			if (BytePattern::temp_instance().has_size(1, u8"テキスト処理ループ２の文字取得修正")) {
+
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
 				// jnz loc

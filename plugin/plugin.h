@@ -256,6 +256,10 @@ namespace FileSave {
 	DllError Init(RunOptions option);
 }
 
+namespace LoadingText {
+	DllError Init(RunOptions option);
+}
+
 namespace Date {
 	DllError Init(RunOptions option);
 }

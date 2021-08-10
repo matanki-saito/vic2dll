@@ -137,8 +137,8 @@ namespace MapView {
 			if (BytePattern::temp_instance().has_size(1, u8"CharUpperBuffA")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 				uintptr_t ptr = Injector::ReadMemory<uintptr_t>(address - 4);
-				void* adr = (void*) CharUpperBuffAX;
-				Injector::WriteMemory(ptr, adr, true);
+				void* p = (void*) CharUpperBuffAX;
+				Injector::WriteMemory(ptr, p, true);
 			}
 			else {
 				e.unmatch.mapViewProc4Injector = true;
@@ -197,8 +197,6 @@ namespace MapView {
 
 		return e;
 	}
-
-
 
 	DllError Init(RunOptions options) {
 		DllError result = {};
