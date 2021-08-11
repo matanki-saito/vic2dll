@@ -61,6 +61,9 @@
     <Filter Include="ソース ファイル\app\loading_text">
       <UniqueIdentifier>{d0f16b94-1101-48ba-907d-11706878233b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\text_width">
+      <UniqueIdentifier>{35c33af3-b6e5-4c11-9672-03cab76c07a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -149,6 +152,9 @@
     <ClCompile Include="loading_text.cpp">
       <Filter>ソース ファイル\app\loading_text</Filter>
     </ClCompile>
+    <ClCompile Include="text_width.cpp">
+      <Filter>ソース ファイル\app\text_width</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -171,6 +177,9 @@
     </MASM>
     <MASM Include="loading_text_asm.asm">
       <Filter>ソース ファイル\app\loading_text</Filter>
+    </MASM>
+    <MASM Include="text_width_asm.asm">
+      <Filter>ソース ファイル\app\text_width</Filter>
     </MASM>
   </ItemGroup>
 </Project>

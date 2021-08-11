@@ -1,5 +1,4 @@
 EXTERN _tooltipAndButtonProc1ReturnAddress: DWORD
-EXTERN _tooltipAndButtonProc2ReturnAddress: DWORD
 EXTERN _tooltipAndButtonProc3ReturnAddress: DWORD
 EXTERN _tooltipAndButtonProc4ReturnAddress: DWORD
 EXTERN _tooltipAndButtonProc4CallAddress: DWORD
@@ -70,56 +69,6 @@ JMP_E:
 	push	_tooltipAndButtonProc1ReturnAddress
 	ret
 tooltipAndButtonProc1 ENDP
-
-;------------------------------;
-
-tooltipAndButtonProc2 PROC
-
-	cmp		byte ptr[eax + esi], ESCAPE_SEQ_1;
-	jz		JMP_A;
-	cmp		byte ptr[eax + esi], ESCAPE_SEQ_2;
-	jz		JMP_B;
-	cmp		byte ptr[eax + esi], ESCAPE_SEQ_3;
-	jz		JMP_C;
-	cmp		byte ptr[eax + esi], ESCAPE_SEQ_4;
-	jz		JMP_D;
-	movzx	eax, byte ptr [eax + esi];
-	jmp		JMP_E;
-
-JMP_A:
-	movzx	eax, word ptr[eax + esi + 1];
-	jmp		JMP_F;
-
-JMP_B:
-	movzx	eax, word ptr[eax + esi + 1];
-	sub		eax, SHIFT_2;
-	jmp		JMP_F;
-
-JMP_C:
-	movzx	eax, word ptr[eax + esi + 1];
-	add		eax, SHIFT_3;
-	jmp		JMP_F;
-
-JMP_D:
-	movzx	eax, word ptr[eax + esi + 1];
-	add		eax, SHIFT_4;
-
-JMP_F:
-	movzx	eax, ax;
-	add		esi, 2;
-	cmp		eax, NO_FONT;
-
-	ja		JMP_E;
-	mov		eax, NOT_DEF;
-
-JMP_E:
-	
-	mov		edi, [edi+eax*4 + 94h]
-	test	edi, edi
-	push	_tooltipAndButtonProc2ReturnAddress
-	ret
-tooltipAndButtonProc2 ENDP
-
 
 ;------------------------------;
 
