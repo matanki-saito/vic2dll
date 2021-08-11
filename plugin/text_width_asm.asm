@@ -2,6 +2,7 @@ EXTERN _textWidthProc1ReturnAddress: DWORD
 EXTERN _textWidthProc2ReturnAddress: DWORD
 EXTERN _textWidthProc3ReturnAddress1: DWORD
 EXTERN _textWidthProc3ReturnAddress2: DWORD
+EXTERN _textWidthProc4ReturnAddress: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -144,5 +145,55 @@ JMP_A:
 	ret
 
 textWidthProc3 ENDP
+
+;------------------------------;
+
+textWidthProc4 PROC
+
+	cmp		byte ptr[eax+ebx], ESCAPE_SEQ_1;
+	jz		JMP_A;
+	cmp		byte ptr[eax+ebx], ESCAPE_SEQ_2;
+	jz		JMP_B;
+	cmp		byte ptr[eax+ebx], ESCAPE_SEQ_3;
+	jz		JMP_C;
+	cmp		byte ptr[eax+ebx], ESCAPE_SEQ_4;
+	jz		JMP_D;
+	movzx   ecx, byte ptr [eax + ebx]
+	jmp		JMP_E;
+
+JMP_A:
+	movzx	ecx, word ptr[eax+ebx + 1];
+	jmp		JMP_F;
+
+JMP_B:
+	movzx	ecx, word ptr[eax+ebx + 1];
+	sub		ecx, SHIFT_2;
+	jmp		JMP_F;
+
+JMP_C:
+	movzx	ecx, word ptr[eax+ebx + 1];
+	add		ecx, SHIFT_3;
+	jmp		JMP_F;
+
+JMP_D:
+	movzx	ecx, word ptr[eax+ebx + 1];
+	add		ecx, SHIFT_4;
+
+JMP_F:
+	add		ebx,2
+
+	movzx	ecx, cx;
+	cmp		ecx, NO_FONT;
+	ja		JMP_E;
+	mov		ecx, NOT_DEF;
+
+JMP_E:
+	mov     eax, dword ptr [ebp - 20h]
+	mov     edi, dword ptr [eax + ecx * 4 + 94h]
+	test    edi, edi
+
+	push	_textWidthProc4ReturnAddress
+	ret
+textWidthProc4 ENDP
 
 END
