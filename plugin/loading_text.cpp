@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "plugin.h"
+#include "escape_tool.h"
 
 namespace LoadingText {
 	extern "C" {
@@ -32,6 +33,7 @@ namespace LoadingText {
 		return(oRet);
 	}
 
+	std::wstring dst;
 	int WINAPI loadingTextProc1HookFunc(
 		ID3DXFont& self,
 		THIS_ LPD3DXSPRITE pSprite,
@@ -41,8 +43,11 @@ namespace LoadingText {
 		DWORD Format,
 		D3DCOLOR Color
 	) {
-		auto ss = Utf8ToWString(u8"しばらくお待ち下さい…");
-		return self.DrawTextW(pSprite, ss.c_str(), 11, pRect, Format, Color);
+		auto src = std::string(pString);
+		dst = L"";
+		convertEscapedTextToWideText(&src, &dst);
+
+		return self.DrawTextW(pSprite, dst.c_str(), dst.size(), pRect, Format, Color);
 	}
 
 	DllError loadingTextProc1Injector(RunOptions options) {

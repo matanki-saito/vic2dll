@@ -198,13 +198,13 @@ errno_t convertEscapedTextToWideText(const std::string* from, std::wstring* to) 
 			case 0x10:
 				break;
 			case 0x11:
-				sp -= 0xE;
+				sp -= 0xF;
 				break;
 			case 0x12:
 				sp += 0x900;
 				break;
 			case 0x13:
-				sp += 0x8F2;
+				sp += 0x8F1;
 				break;
 			default:
 				break;
