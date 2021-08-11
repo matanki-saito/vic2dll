@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "plugin.h"
 
 namespace LoadingText {
@@ -11,24 +11,24 @@ namespace LoadingText {
 
 	std::wstring Utf8ToWString(std::string oUTF8Str)
 	{
-		// ƒoƒbƒtƒ@ƒTƒCƒY‚Ìæ“¾
+		// ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã®å–å¾—
 		int iBufferSize = ::MultiByteToWideChar(CP_UTF8, 0, oUTF8Str.c_str()
 			, -1, (wchar_t*)NULL, 0);
 
-		// ƒoƒbƒtƒ@‚Ìæ“¾
+		// ãƒãƒƒãƒ•ã‚¡ã®å–å¾—
 		wchar_t* wpBufWString = (wchar_t*)new wchar_t[iBufferSize];
 
-		// UTF8 ¨ wstring
+		// UTF8 â†’ wstring
 		::MultiByteToWideChar(CP_UTF8, 0, oUTF8Str.c_str(), -1, wpBufWString
 			, iBufferSize);
 
-		// wstring‚Ì¶¬
+		// wstringã®ç”Ÿæˆ
 		std::wstring oRet(wpBufWString, wpBufWString + iBufferSize - 1);
 
-		// ƒoƒbƒtƒ@‚Ì”jŠü
+		// ãƒãƒƒãƒ•ã‚¡ã®ç ´æ£„
 		delete[] wpBufWString;
 
-		// •ÏŠ·Œ‹‰Ê‚ğ•Ô‚·
+		// å¤‰æ›çµæœã‚’è¿”ã™
 		return(oRet);
 	}
 
@@ -41,8 +41,7 @@ namespace LoadingText {
 		DWORD Format,
 		D3DCOLOR Color
 	) {
-		auto ss = Utf8ToWString(u8"‚µ‚Î‚ç‚­‚¨‘Ò‚¿‰º‚³‚¢c");
-
+		auto ss = Utf8ToWString(u8"ã—ã°ã‚‰ããŠå¾…ã¡ä¸‹ã•ã„â€¦");
 		return self.DrawTextW(pSprite, ss.c_str(), 11, pRect, Format, Color);
 	}
 
