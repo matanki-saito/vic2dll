@@ -10,29 +10,6 @@ namespace LoadingText {
 		uintptr_t loadingTextProc1HookFuncAddress;
 	}
 
-	std::wstring Utf8ToWString(std::string oUTF8Str)
-	{
-		// バッファサイズの取得
-		int iBufferSize = ::MultiByteToWideChar(CP_UTF8, 0, oUTF8Str.c_str()
-			, -1, (wchar_t*)NULL, 0);
-
-		// バッファの取得
-		wchar_t* wpBufWString = (wchar_t*)new wchar_t[iBufferSize];
-
-		// UTF8 → wstring
-		::MultiByteToWideChar(CP_UTF8, 0, oUTF8Str.c_str(), -1, wpBufWString
-			, iBufferSize);
-
-		// wstringの生成
-		std::wstring oRet(wpBufWString, wpBufWString + iBufferSize - 1);
-
-		// バッファの破棄
-		delete[] wpBufWString;
-
-		// 変換結果を返す
-		return(oRet);
-	}
-
 	std::wstring dst;
 	int WINAPI loadingTextProc1HookFunc(
 		ID3DXFont& self,

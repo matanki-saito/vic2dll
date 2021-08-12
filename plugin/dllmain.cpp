@@ -33,6 +33,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			// フォント読み込み
 			e |= Font::Init(options);
 
+			// テキスト幅
+			e |= TextWidth::Init(options);
+
 			// メインテキスト
 			e |= MainText::Init(options);
 

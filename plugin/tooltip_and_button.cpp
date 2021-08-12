@@ -5,8 +5,6 @@ namespace TooltipAndButton {
 	extern "C" {
 		void tooltipAndButtonProc1();
 		uintptr_t tooltipAndButtonProc1ReturnAddress;
-		void tooltipAndButtonProc2();
-		uintptr_t tooltipAndButtonProc2ReturnAddress;
 		void tooltipAndButtonProc3();
 		uintptr_t tooltipAndButtonProc3ReturnAddress;
 		void tooltipAndButtonProc4();
@@ -35,33 +33,6 @@ namespace TooltipAndButton {
 			break;
 		default:
 			e.version.tooltipAndButtonProc1Injector = true;
-		}
-
-		return e;
-	}
-
-	DllError tooltipAndButtonProc2Injector(RunOptions options) {
-		DllError e = {};
-
-		// 別のルーチンにある
-		switch (options.version) {
-		case v3_0_4_0:
-			// movzx   eax, byte ptr [eax+esi]
-			BytePattern::temp_instance().find_pattern("0F B6 04 30 8B BC 87 94 00 00 00");
-			if (BytePattern::temp_instance().has_size(1, u8"改行のためのカウント処理")) {
-				uintptr_t address = BytePattern::temp_instance().get_first().address();
-
-				// jnz loc
-				tooltipAndButtonProc2ReturnAddress = address + 0xD;
-
-				Injector::MakeJMP(address, tooltipAndButtonProc2, true);
-			}
-			else {
-				e.unmatch.tooltipAndButtonProc2Injector = true;
-			}
-			break;
-		default:
-			e.version.tooltipAndButtonProc2Injector = true;
 		}
 
 		return e;
@@ -126,8 +97,6 @@ namespace TooltipAndButton {
 		DllError result = {};
 
 		result |= tooltipAndButtonProc1Injector(options);
-
-		result |= tooltipAndButtonProc2Injector(options);
 
 		result |= tooltipAndButtonProc3Injector(options);
 

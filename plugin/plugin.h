@@ -279,3 +279,8 @@ namespace Input {
 namespace Localization {
 	DllError Init(RunOptions option);
 }
+
+namespace TextWidth {
+	DllError Init(RunOptions option);
+}
+
