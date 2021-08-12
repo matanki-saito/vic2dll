@@ -181,6 +181,7 @@ JMP_D:
 
 JMP_F:
 	add		ebx,2
+	mov     dword ptr [ebp - 14h], 0
 
 	movzx	ecx, cx;
 	cmp		ecx, NO_FONT;

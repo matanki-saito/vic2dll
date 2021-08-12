@@ -24,7 +24,7 @@ namespace TextWidth {
 		case v3_0_4_0:
 			// movzx   eax, byte ptr [eax+esi]
 			BytePattern::temp_instance().find_pattern("0F B6 04 30 8B BC 87 94 00 00 00");
-			if (BytePattern::temp_instance().has_size(1, u8"改行のためのカウント処理")) {
+			if (BytePattern::temp_instance().has_size(1, u8"フォントから文字取得")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
 				// jnz loc
@@ -35,6 +35,7 @@ namespace TextWidth {
 			else {
 				e.unmatch.tooltipAndButtonProc2Injector = true;
 			}
+
 			break;
 		default:
 			e.version.tooltipAndButtonProc2Injector = true;
@@ -50,7 +51,7 @@ namespace TextWidth {
 		case v3_0_4_0:
 			// mov     al, [ebx+edx]
 			BytePattern::temp_instance().find_pattern("8A 04 13 0F B6 C8 8B 8C 8E 94 00 00 00");
-			if (BytePattern::temp_instance().has_size(1, u8"文字幅取得処理")) {
+			if (BytePattern::temp_instance().has_size(1, u8"フォントから文字取得")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
 				// jz      short loc_xxxxx
@@ -104,7 +105,7 @@ namespace TextWidth {
 		case v3_0_4_0:
 			// movzx   ecx, byte ptr [eax+ebx]
 			BytePattern::temp_instance().find_pattern("0F B6 0C 18 8B 45 E0 8B BC 88 94 00 00 00");
-			if (BytePattern::temp_instance().has_size(1, u8"カウントアップ")) {
+			if (BytePattern::temp_instance().has_size(1, u8"フォントから文字取得")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
 				// jz_xxxxx
