@@ -20,6 +20,7 @@ NOT_DEF			=	2026h
 
 .DATA
 JOINTER		DB	16,24,152,00
+DEFAULT_JOINTER		DB		20,00
 
 .CODE
 mapJustifyProc1 PROC
@@ -88,9 +89,39 @@ mapJustifyProc2 ENDP
 
 
 mapJustifyProc3 PROC
+	
+	lea		ecx, [ebp - 54h]
+	mov		eax, dword ptr [ecx + 10h]
+	cmp		eax, 10h
+	jle		JMP_A
+	mov		ecx, dword ptr [ecx];
+JMP_A:
 
-	push    3
+	cmp		eax, 3
+	jb		JMP_B
+
+	mov		cl, byte ptr[ecx + eax - 3];
+
+	cmp		cl, ESCAPE_SEQ_1;
+	jz		JMP_D;
+	cmp		cl, ESCAPE_SEQ_2;
+	jz		JMP_D;
+	cmp		cl, ESCAPE_SEQ_3;
+	jz		JMP_D;
+	cmp		cl, ESCAPE_SEQ_4;
+	jz		JMP_D;
+	jmp		JMP_B;
+
+JMP_D:
+	push	3
 	lea		ecx,JOINTER
+	jmp		JMP_C;
+
+JMP_B: ;‰pŒê
+	push    1
+	lea		ecx, DEFAULT_JOINTER
+
+JMP_C:
 	push	ecx
 	lea     ecx, [ebp + -94h]
 	mov     dword ptr [ebp - 80h], 0Fh
