@@ -50,6 +50,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			// ロード画面
 			e |= LoadingText::Init(options);
 
+			// セーブ
+			e |= SaveFile::Init(options);
+
 			Validator::Validate(e, options);
 		}
 	}

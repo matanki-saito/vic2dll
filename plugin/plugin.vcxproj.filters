@@ -64,6 +64,9 @@
     <Filter Include="ソース ファイル\app\text_width">
       <UniqueIdentifier>{35c33af3-b6e5-4c11-9672-03cab76c07a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\save_file">
+      <UniqueIdentifier>{1e148ba3-e8ab-4c07-a2ea-79ddf1884b43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -155,6 +158,9 @@
     <ClCompile Include="text_width.cpp">
       <Filter>ソース ファイル\app\text_width</Filter>
     </ClCompile>
+    <ClCompile Include="save_file.cpp">
+      <Filter>ソース ファイル\app\save_file</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -180,6 +186,9 @@
     </MASM>
     <MASM Include="text_width_asm.asm">
       <Filter>ソース ファイル\app\text_width</Filter>
+    </MASM>
+    <MASM Include="save_file_asm.asm">
+      <Filter>ソース ファイル\app\save_file</Filter>
     </MASM>
   </ItemGroup>
 </Project>
