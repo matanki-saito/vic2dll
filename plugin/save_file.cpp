@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "plugin.h"
+#include "escape_tool.h"
 
 namespace SaveFile {
 	extern "C" {
@@ -9,7 +10,13 @@ namespace SaveFile {
 	}
 
 	void __fastcall saveFileProc1InjectionFunction(char** c) {
-		return;
+		while (*c != NULL) {
+			printf("%s\n",*c);
+			char* w = utf8ToEscapedStr3(*c);
+			int len = strlen(w);
+			memcpy(*c, w, len+1);
+			*c++;
+		}
 	}
 
 	DllError saveFileProc1Injector(RunOptions options) {
