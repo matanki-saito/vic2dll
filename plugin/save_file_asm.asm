@@ -19,12 +19,12 @@ NOT_DEF			=	2026h
 saveFileProc1 PROC
 	add     esp, 4;
 
-	PUSHAD;
+	;PUSHAD;
 
-	mov		ecx, eax;
-	call	_saveFileProc1InjectionFunctionAddress;
+	;mov		ecx, eax;
+	;call	_saveFileProc1InjectionFunctionAddress;
 
-	POPAD;
+	;POPAD;
 
 	mov     dword ptr [esp+120h-110h], eax;
 	mov     dword ptr [esp+120h-114h], eax;
