@@ -51,7 +51,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			e |= LoadingText::Init(options);
 
 			// セーブ
-			e |= SaveFile::Init(options);
+			//e |= SaveFile::Init(options);
 
 			Validator::Validate(e, options);
 		}
