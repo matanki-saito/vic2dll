@@ -42,11 +42,7 @@ namespace ModDownload {
 	DllError Init() {
 		DllError error = {};
 
-		wchar_t myDocumentPath[MAX_PATH];
-		SHGetSpecialFolderPath(NULL, myDocumentPath, CSIDL_PERSONAL, 0);
-
-		const path gameDirPath = path{ myDocumentPath } / L"Paradox Interactive" / L"Victoria II";
-		path downloaderExePath = path{ gameDirPath } / L"claes.exe";
+		path downloaderExePath =  L"./claes.exe";
 
 		if (exists(downloaderExePath)) {
 			error |= createProcess(
