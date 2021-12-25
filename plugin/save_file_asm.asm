@@ -1,5 +1,7 @@
 EXTERN _saveFileProc1ReturnAddress: DWORD
 EXTERN _saveFileProc1InjectionFunctionAddress: DWORD
+EXTERN _saveFileProc3ReturnAddress: DWORD
+EXTERN _saveFileProc4ReturnAddress: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -17,6 +19,8 @@ NOT_DEF			=	2026h
 
 .DATA
 tmp1	DD		0
+tmp2	DD		0
+tmp3	DD		0
 
 .CODE
 saveFileProc1 PROC
@@ -39,5 +43,42 @@ saveFileProc1 PROC
 	push	_saveFileProc1ReturnAddress;
 	ret;
 saveFileProc1 ENDP
+
+;----------------------------------;
+
+saveFileProc3 PROC
+	PUSHAD;
+
+	mov		ecx, eax;
+	call	_saveFileProc1InjectionFunctionAddress;
+	mov		tmp2, eax;
+
+	POPAD;
+
+	mov		eax, tmp2;
+
+	push    0FFFFFFFFh;
+	push    ebx;
+	push    eax;
+	lea		ecx, [esp+13Ch-0C0h];
+	mov     byte ptr [esp+13Ch-04h], 13h
+
+	push	_saveFileProc3ReturnAddress;
+	ret;
+saveFileProc3 ENDP
+
+;----------------------------------;
+
+saveFileProc4 PROC
+	mov     edx, dword ptr [esp+130h-0CCh]
+	push    edx
+	push    eax
+	lea     eax, [esp+138h-64h]
+	push    eax ; çëñº
+	xor     eax, eax
+
+	push	_saveFileProc4ReturnAddress;
+	ret;
+saveFileProc4 ENDP
 
 END

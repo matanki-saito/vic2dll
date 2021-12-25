@@ -7,6 +7,12 @@ namespace SaveFile {
 		void saveFileProc1();
 		uintptr_t saveFileProc1InjectionFunctionAddress;
 		uintptr_t saveFileProc1ReturnAddress;
+
+		void saveFileProc3();
+		uintptr_t saveFileProc3ReturnAddress;
+
+		void saveFileProc4();
+		uintptr_t saveFileProc4ReturnAddress;
 	}
 
 	PString* __fastcall saveFileProc1InjectionFunction(PString *s) {
@@ -66,11 +72,66 @@ namespace SaveFile {
 		return e;
 	}
 
+	DllError saveFileProc3Injector(RunOptions options) {
+		DllError e = {};
+
+		switch (options.version) {
+		case v3_0_4_0:
+			// push    0FFFFFFFFh
+			BytePattern::temp_instance().find_pattern("6A FF 53 50 8D 4C 24 7C C6 84 24 38 01 00 00 13");
+			if (BytePattern::temp_instance().has_size(1, u8"UTF8Str to SpecailEncodedText")) {
+				uintptr_t address = BytePattern::temp_instance().get_first().address();
+
+				// call xxxxx
+				saveFileProc3ReturnAddress = address + 0x10;
+
+				Injector::MakeJMP(address, saveFileProc3, true);
+			}
+			else {
+				e.unmatch.mapViewProc4Injector = true;
+			}
+			break;
+		default:
+			e.version.mapViewProc4Injector = true;
+		}
+
+		return e;
+	}
+
+	DllError saveFileProc4Injector(RunOptions options) {
+		DllError e = {};
+
+		switch (options.version) {
+		case v3_0_4_0:
+			// mov     edx, [esi+10h]
+			BytePattern::temp_instance().find_pattern("8B 56 10 57 33 FF 85 D2 0F 8E 7E 02 00 00");
+			if (BytePattern::temp_instance().has_size(1, u8"skip escape string")) {
+				uintptr_t address = BytePattern::temp_instance().get_first().address();
+
+				// jle loc_xxxxx -> jmp loc_xxxxx
+				Injector::WriteMemory<byte>(address + 8, 0xE9, true);
+				Injector::WriteMemory<byte>(address + 9, 0x7F, true);
+				Injector::WriteMemory<byte>(address + 0xA, 0x02, true);
+				Injector::WriteMemory<byte>(address + 0xB, 0x00, true);
+			}
+			else {
+				e.unmatch.mapViewProc4Injector = true;
+			}
+			break;
+		default:
+			e.version.mapViewProc4Injector = true;
+		}
+
+		return e;
+	}
+
 	DllError Init(RunOptions options) {
 		DllError result = {};
 
 		result |= saveFileProc1Injector(options);
 		result |= saveFileProc2Injector(options);
+		result |= saveFileProc3Injector(options);
+		result |= saveFileProc4Injector(options);
 
 		return result;
 	}
