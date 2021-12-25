@@ -451,6 +451,35 @@ char* escapedStrToUtf8(PString* from) {
 	return (char*)tmpParadoxTextObject2;
 }
 
+PString* buff1 = NULL;
+PString* escapedStrToUtf8A(PString* from) {
+
+	if (buff1 != NULL) {
+		if (buff1->len > 0x10) {
+			free(buff1->t.p);
+		}
+		delete buff1;
+	}
+	buff1 = new PString();
+
+	std::wstring* buffer = new std::wstring();
+	std::string* dest = new std::string();
+	std::string src = from->getString();
+
+	// Escaped Text -> wide char (ucs2)
+	convertEscapedTextToWideText(&src, buffer);
+
+	// wide char (ucs2) ->  UTF-8
+	convertWideTextToUtf8(buffer, dest);
+
+	buff1->setString(dest);
+
+	delete buffer;
+	delete dest;
+
+	return buff1;
+}
+
 char* utf8ToEscapedStr3buffer = NULL;
 char* utf8ToEscapedStr3(char* from) {
 	// init

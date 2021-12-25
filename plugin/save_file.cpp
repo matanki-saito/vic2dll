@@ -11,12 +11,18 @@ namespace SaveFile {
 		void saveFileProc3();
 		uintptr_t saveFileProc3ReturnAddress;
 
-		void saveFileProc4();
-		uintptr_t saveFileProc4ReturnAddress;
+		void saveFileProc5();
+		uintptr_t saveFileProc5InjectionFunctionAddress;
+		uintptr_t saveFileProc5ReturnAddress;
 	}
 
 	PString* __fastcall saveFileProc1InjectionFunction(PString *s) {
 		PString* t = utf8ToEscapedStr2(s);
+		return t;
+	}
+
+	PString* __fastcall saveFileProc5InjectionFunction(PString* s) {
+		PString* t = escapedStrToUtf8A(s);
 		return t;
 	}
 
@@ -125,6 +131,35 @@ namespace SaveFile {
 		return e;
 	}
 
+	DllError saveFileProc5Injector(RunOptions options) {
+		DllError e = {};
+
+		switch (options.version) {
+		case v3_0_4_0:
+			// mov     edi, [ebp+arg_4]
+			BytePattern::temp_instance().find_pattern("8B 7D 0C 83 7F 14 10 72 04 8B 17 EB 02 8B D7 E8 ? ? ? ? 8B");
+			if (BytePattern::temp_instance().has_size(1, u8"convert to UTF8")) {
+				//
+				uintptr_t address = BytePattern::temp_instance().get_first().address();
+
+				saveFileProc5InjectionFunctionAddress = (uintptr_t)saveFileProc5InjectionFunction;
+
+				// call xxxxx
+				saveFileProc5ReturnAddress = address + 0xF;
+
+				Injector::MakeJMP(address, saveFileProc5, true);
+			}
+			else {
+				e.unmatch.mapViewProc4Injector = true;
+			}
+			break;
+		default:
+			e.version.mapViewProc4Injector = true;
+		}
+
+		return e;
+	}
+
 	DllError Init(RunOptions options) {
 		DllError result = {};
 
@@ -132,6 +167,7 @@ namespace SaveFile {
 		result |= saveFileProc2Injector(options);
 		result |= saveFileProc3Injector(options);
 		result |= saveFileProc4Injector(options);
+		result |= saveFileProc5Injector(options);
 
 		return result;
 	}

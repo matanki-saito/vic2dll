@@ -1,7 +1,8 @@
 EXTERN _saveFileProc1ReturnAddress: DWORD
 EXTERN _saveFileProc1InjectionFunctionAddress: DWORD
 EXTERN _saveFileProc3ReturnAddress: DWORD
-EXTERN _saveFileProc4ReturnAddress: DWORD
+EXTERN _saveFileProc5ReturnAddress: DWORD
+EXTERN _saveFileProc5InjectionFunctionAddress: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -19,8 +20,8 @@ NOT_DEF			=	2026h
 
 .DATA
 tmp1	DD		0
-tmp2	DD		0
 tmp3	DD		0
+tmp5	DD		0
 
 .CODE
 saveFileProc1 PROC
@@ -51,11 +52,11 @@ saveFileProc3 PROC
 
 	mov		ecx, eax;
 	call	_saveFileProc1InjectionFunctionAddress;
-	mov		tmp2, eax;
+	mov		tmp3, eax;
 
 	POPAD;
 
-	mov		eax, tmp2;
+	mov		eax, tmp3;
 
 	push    0FFFFFFFFh;
 	push    ebx;
@@ -69,16 +70,31 @@ saveFileProc3 ENDP
 
 ;----------------------------------;
 
-saveFileProc4 PROC
-	mov     edx, dword ptr [esp+130h-0CCh]
-	push    edx
-	push    eax
-	lea     eax, [esp+138h-64h]
-	push    eax ; çëñº
-	xor     eax, eax
+saveFileProc5 PROC
 
-	push	_saveFileProc4ReturnAddress;
+	mov     edi, dword ptr [ebp+0Ch]
+
+	PUSHAD;
+	mov		ecx, edi;
+	call	_saveFileProc5InjectionFunctionAddress;
+	mov		tmp5, eax;
+	POPAD;
+
+	mov		edi, tmp5;
+
+	cmp     dword ptr [edi+14h], 10h;
+	jb JMP_A;
+
+	mov     edx, [edi]
+	jmp		JMP_B;
+
+JMP_A:
+	mov     edx, edi;
+
+JMP_B:
+
+	push	_saveFileProc5ReturnAddress;
 	ret;
-saveFileProc4 ENDP
+saveFileProc5 ENDP
 
 END
