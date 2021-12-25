@@ -161,8 +161,8 @@ typedef struct _ParadoxTextObject {
 		char text[0x10];
 		char* p;
 	} t;
-	UINT64 len;
-	UINT64 len2;
+	UINT32 len;
+	UINT32 len2;
 
 	std::string getString() {
 		if (len2 >= 0x10) {
@@ -190,7 +190,7 @@ typedef struct _ParadoxTextObject {
 		}
 	}
 
-} ParadoxTextObject;
+} PString;
 
 typedef struct _RunOptions {
 	Vic2Version version;

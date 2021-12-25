@@ -15,20 +15,26 @@ NOT_DEF			=	2026h
 
 .MODEL FLAT, C
 
+.DATA
+tmp1	DD		0
+
 .CODE
 saveFileProc1 PROC
-	add     esp, 4;
+	PUSHAD;
 
-	;PUSHAD;
+	mov		ecx, eax;
+	call	_saveFileProc1InjectionFunctionAddress;
+	mov		tmp1, eax;
 
-	;mov		ecx, eax;
-	;call	_saveFileProc1InjectionFunctionAddress;
+	POPAD;
 
-	;POPAD;
+	mov		eax, tmp1;
 
-	mov     dword ptr [esp+120h-110h], eax;
-	mov     dword ptr [esp+120h-114h], eax;
-	cmp     [eax], ebx;
+	push    0FFFFFFFFh;
+	push    0;
+	push    eax
+	lea     ecx, [ebp - 0C4h];
+	mov     byte ptr [ebp - 4h], 0Ah;
 
 	push	_saveFileProc1ReturnAddress;
 	ret;

@@ -9,14 +9,9 @@ namespace SaveFile {
 		uintptr_t saveFileProc1ReturnAddress;
 	}
 
-	void __fastcall saveFileProc1InjectionFunction(char** c) {
-		while (*c != NULL) {
-			printf("%s\n",*c);
-			char* w = utf8ToEscapedStr3(*c);
-			int len = strlen(w);
-			memcpy(*c, w, len+1);
-			*c++;
-		}
+	PString* __fastcall saveFileProc1InjectionFunction(PString *s) {
+		PString* t = utf8ToEscapedStr2(s);
+		return t;
 	}
 
 	DllError saveFileProc1Injector(RunOptions options) {
@@ -24,13 +19,13 @@ namespace SaveFile {
 
 		switch (options.version) {
 		case v3_0_4_0:
-			// add esp, 4
-			BytePattern::temp_instance().find_pattern("83 C4 04 89 44 24 10 89 44 24 0C");
-			if (BytePattern::temp_instance().has_size(1, u8"After PHYSFS_enumerateFiles")) {
+			// push    0FFFFFFFFh
+			BytePattern::temp_instance().find_pattern("6A FF 6A 00 50 8D 8D 3C FF");
+			if (BytePattern::temp_instance().has_size(1, u8"UTF8Str to SpecailEncodedText")) {
 				uintptr_t address = BytePattern::temp_instance().get_first().address();
 
-				// jz xxxxx
-				saveFileProc1ReturnAddress = address + 0xD;
+				// call xxxxx
+				saveFileProc1ReturnAddress = address + 0xF;
 
 				saveFileProc1InjectionFunctionAddress = (uintptr_t)saveFileProc1InjectionFunction;
 

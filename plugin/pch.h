@@ -15,5 +15,6 @@
 #include <d3dx9.h>
 #include "byte_pattern.h"
 #include "injector.hpp"
+#include <atlstr.h>
 
 #endif //PCH_H

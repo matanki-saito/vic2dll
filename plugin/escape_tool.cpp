@@ -331,7 +331,7 @@ errno_t convertWideTextToUtf8(const std::wstring* from, std::string* to) {
 }
 
 
-ParadoxTextObject* tmpParadoxTextObject = NULL;
+PString* tmpParadoxTextObject = NULL;
 char* utf8ToEscapedStr(char* from) {
 
 	if (tmpParadoxTextObject != NULL) {
@@ -341,7 +341,7 @@ char* utf8ToEscapedStr(char* from) {
 		delete tmpParadoxTextObject;
 	}
 
-	tmpParadoxTextObject = new ParadoxTextObject();
+	tmpParadoxTextObject = new PString();
 
 	wchar_t* tmp1 = NULL;
 	char* tmp2 = NULL;
@@ -377,8 +377,8 @@ char* utf8ToEscapedStr(char* from) {
 	return (char*)tmpParadoxTextObject;
 }
 
-ParadoxTextObject* tmpZV2 = NULL;
-ParadoxTextObject* utf8ToEscapedStr2(ParadoxTextObject* from) {
+PString* tmpZV2 = NULL;
+PString* utf8ToEscapedStr2(PString* from) {
 
 	if (tmpZV2 != NULL) {
 		if (tmpZV2->len > 0x10) {
@@ -386,7 +386,7 @@ ParadoxTextObject* utf8ToEscapedStr2(ParadoxTextObject* from) {
 		}
 		delete tmpZV2;
 	}
-	tmpZV2 = new ParadoxTextObject();
+	tmpZV2 = new PString();
 
 	wchar_t* tmp = NULL;
 	char* tmp2 = NULL;
@@ -422,8 +422,8 @@ ParadoxTextObject* utf8ToEscapedStr2(ParadoxTextObject* from) {
 	return tmpZV2;
 }
 
-ParadoxTextObject* tmpParadoxTextObject2 = NULL;
-char* escapedStrToUtf8(ParadoxTextObject* from) {
+PString* tmpParadoxTextObject2 = NULL;
+char* escapedStrToUtf8(PString* from) {
 
 	if (tmpParadoxTextObject2 != NULL) {
 		if (tmpParadoxTextObject2->len > 0x10) {
@@ -431,7 +431,7 @@ char* escapedStrToUtf8(ParadoxTextObject* from) {
 		}
 		delete tmpParadoxTextObject2;
 	}
-	tmpParadoxTextObject2 = new ParadoxTextObject();
+	tmpParadoxTextObject2 = new PString();
 
 	std::wstring* buffer = new std::wstring();
 	std::string* dest = new std::string();
