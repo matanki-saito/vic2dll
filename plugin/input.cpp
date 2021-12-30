@@ -21,7 +21,6 @@ namespace Input {
 		if (Msg == 0x286) { // WM_IME_CHAR
 
 			// IMEから渡ってきたコードポイントはマシン依存（Multibyte）であるためUnicodeにする
-
 			char imeSource[32] = { 0 };
 
 			// TODO
@@ -68,9 +67,9 @@ namespace Input {
 			// Unicodeから特殊エンコードに変換する
 			char* s = NULL;
 			convertWideTextToEscapedText(w, &s);
-
 			for(int i=0;i<strlen(s);i++){
-				DefWindowProcA(hWnd, Msg, s[i], lParam);
+				//DefWindowProcA(hWnd, WM_CHAR, w, 1);
+				SendMessageA(hWnd, WM_CHAR, (byte)s[i], 1);
 			}
 
 			free(s);
