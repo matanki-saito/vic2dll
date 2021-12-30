@@ -67,6 +67,9 @@
     <Filter Include="ソース ファイル\app\save_file">
       <UniqueIdentifier>{1e148ba3-e8ab-4c07-a2ea-79ddf1884b43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\input">
+      <UniqueIdentifier>{7b24bffe-1c13-440b-9ad3-f36ca80347b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -161,6 +164,9 @@
     <ClCompile Include="save_file.cpp">
       <Filter>ソース ファイル\app\save_file</Filter>
     </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>ソース ファイル\app\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -189,6 +195,9 @@
     </MASM>
     <MASM Include="save_file_asm.asm">
       <Filter>ソース ファイル\app\save_file</Filter>
+    </MASM>
+    <MASM Include="input_asm.asm">
+      <Filter>ソース ファイル\app\input</Filter>
     </MASM>
   </ItemGroup>
 </Project>

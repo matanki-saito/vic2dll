@@ -287,3 +287,7 @@ namespace TextWidth {
 namespace SaveFile {
 	DllError Init(RunOptions option);
 }
+
+namespace Input {
+	DllError Init(RunOptions option);
+}

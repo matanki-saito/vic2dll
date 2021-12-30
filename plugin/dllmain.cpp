@@ -53,6 +53,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			// セーブ
 			e |= SaveFile::Init(options);
 
+			// 入力
+			e |= Input::Init(options);
+
 			Validator::Validate(e, options);
 		}
 	}

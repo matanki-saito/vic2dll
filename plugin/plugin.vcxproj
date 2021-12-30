@@ -182,7 +182,9 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="escape_tool.cpp" />
     <ClCompile Include="font.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="loading_text.cpp" />
+    <MASM Include="input_asm.asm" />
     <MASM Include="loading_text_asm.asm">
       <FileType>Document</FileType>
     </MASM>
