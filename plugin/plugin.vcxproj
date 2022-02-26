@@ -188,6 +188,7 @@
     <MASM Include="loading_text_asm.asm">
       <FileType>Document</FileType>
     </MASM>
+    <ClCompile Include="localization.cpp" />
     <ClCompile Include="map_adjustment.cpp" />
     <ClCompile Include="map_justify.cpp" />
     <ClCompile Include="save_file.cpp" />
@@ -203,6 +204,7 @@
     </ClCompile>
     <ClCompile Include="main_text.cpp" />
     <ClCompile Include="map_view.cpp" />
+    <MASM Include="localization_asm.asm" />
     <MASM Include="main_text_asm.asm">
       <FileType>Document</FileType>
     </MASM>

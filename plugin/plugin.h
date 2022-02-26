@@ -291,3 +291,7 @@ namespace SaveFile {
 namespace Input {
 	DllError Init(RunOptions option);
 }
+
+namespace Localization {
+	DllError Init(RunOptions option);
+}

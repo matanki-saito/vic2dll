@@ -70,6 +70,9 @@
     <Filter Include="ソース ファイル\app\input">
       <UniqueIdentifier>{7b24bffe-1c13-440b-9ad3-f36ca80347b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\localization">
+      <UniqueIdentifier>{cff7a7f3-90dc-4132-8a91-5a8ac4a207c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -167,6 +170,9 @@
     <ClCompile Include="input.cpp">
       <Filter>ソース ファイル\app\input</Filter>
     </ClCompile>
+    <ClCompile Include="localization.cpp">
+      <Filter>ソース ファイル\app\localization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -198,6 +204,9 @@
     </MASM>
     <MASM Include="input_asm.asm">
       <Filter>ソース ファイル\app\input</Filter>
+    </MASM>
+    <MASM Include="localization_asm.asm">
+      <Filter>ソース ファイル\app\localization</Filter>
     </MASM>
   </ItemGroup>
 </Project>
