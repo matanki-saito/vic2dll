@@ -178,12 +178,14 @@
     <ClInclude Include="utility.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="animated_text.cpp" />
     <ClCompile Include="byte_pattern.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="escape_tool.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="loading_text.cpp" />
+    <MASM Include="animated_text_asm.asm" />
     <MASM Include="input_asm.asm" />
     <MASM Include="loading_text_asm.asm">
       <FileType>Document</FileType>

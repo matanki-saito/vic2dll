@@ -73,6 +73,9 @@
     <Filter Include="ソース ファイル\app\localization">
       <UniqueIdentifier>{cff7a7f3-90dc-4132-8a91-5a8ac4a207c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\app\animated_text">
+      <UniqueIdentifier>{ba91d99b-be38-4a90-a316-d2722620df03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -173,6 +176,9 @@
     <ClCompile Include="localization.cpp">
       <Filter>ソース ファイル\app\localization</Filter>
     </ClCompile>
+    <ClCompile Include="animated_text.cpp">
+      <Filter>ソース ファイル\app\animated_text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -207,6 +213,9 @@
     </MASM>
     <MASM Include="localization_asm.asm">
       <Filter>ソース ファイル\app\localization</Filter>
+    </MASM>
+    <MASM Include="animated_text_asm.asm">
+      <Filter>ソース ファイル\app\animated_text</Filter>
     </MASM>
   </ItemGroup>
 </Project>

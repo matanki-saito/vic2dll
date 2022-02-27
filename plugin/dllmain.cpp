@@ -59,6 +59,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			// ローカライズ
 			e |= Localization::Init(options);
 
+			// アニメーションテキスト
+			e |= AnimatedText::Init(options);
+
 			Validator::Validate(e, options);
 		}
 	}
