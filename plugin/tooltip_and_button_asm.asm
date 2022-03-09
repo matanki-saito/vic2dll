@@ -2,6 +2,9 @@ EXTERN _tooltipAndButtonProc1ReturnAddress: DWORD
 EXTERN _tooltipAndButtonProc3ReturnAddress: DWORD
 EXTERN _tooltipAndButtonProc4ReturnAddress: DWORD
 EXTERN _tooltipAndButtonProc4CallAddress: DWORD
+EXTERN _tooltipAndButtonProc5ReturnAddress1: DWORD
+EXTERN _tooltipAndButtonProc5ReturnAddress2: DWORD
+EXTERN _tooltipAndButtonProc5ReturnAddress3: DWORD
 
 ESCAPE_SEQ_1	=	10h
 ESCAPE_SEQ_2	=	11h
@@ -167,5 +170,32 @@ JMP_D:
 	ret
 
 tooltipAndButtonProc4 ENDP
+
+;------------------------------;
+
+tooltipAndButtonProc5 PROC
+	cmp		tmp1, 0
+	jz		JMP_A
+
+	; line-breaking
+	push	_tooltipAndButtonProc5ReturnAddress1
+	ret
+
+JMP_A:
+
+	cmp     dword ptr [esp + 400h - 394h], 0
+	jnz		JMP_B
+
+	; original
+	push	_tooltipAndButtonProc5ReturnAddress3
+	ret
+
+JMP_B:
+	; skip
+	push	_tooltipAndButtonProc5ReturnAddress2
+	ret;
+
+
+tooltipAndButtonProc5 ENDP
 
 END
